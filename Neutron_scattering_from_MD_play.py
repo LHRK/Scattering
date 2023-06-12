@@ -85,7 +85,7 @@ keep_H = mc3_H_atoms + mc3_H_atoms
 polyA_H_atoms = "H61 H62"
 
 #for resname in np.unique(u.select_atoms('all').resnames):
-for resname in ['DLMC', 'TIP3']:
+for resname in ['DLMC', 'TIP3', 'Total']:
 	u = mda.Universe('sub.pdb', 'sub.xtc')
 	if resname  == 'DLMC':
 		keep_H =  mc3_H_atoms + mc3_H_atoms
@@ -95,10 +95,12 @@ for resname in ['DLMC', 'TIP3']:
 		keep_H = polyA_H_atoms
 		#print (f'resname {resname} and type H and not name {keep_H}')
 		u.select_atoms(f'resname {resname} and type H and not name {keep_H}').atoms.types = 'D'
+	if resname == 'Total':
+		u.select_atoms('all and type H').atoms.types = 'D'
 	else:
 		#print (f'resname {resname} and type H')
 		u.select_atoms(f'resname {resname} and type H').atoms.types = 'D'
-	
+
 	
 	sim = MDSimulation(u,flip=False, cut_off=0, layer_thickness=1, roughness=3.5)
 	# this is just one of three ways to determine the scattering lengths
