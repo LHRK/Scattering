@@ -59,10 +59,10 @@ class MDSimulation(Component):
     def __init__(
         self,
         pdbfile,
-        layer_thickness=1,
-        cut_off=5,
+        layer_thickness=5,
+        cut_off=0,
         flip=False,
-        roughness=0,
+        roughness=1,
         verbose=False,
     ):
         self.pdbfile = pdbfile
@@ -137,7 +137,8 @@ class MDSimulation(Component):
         column of the pdb file.
         """
         self.scatlens = {}
-        if atom_types and scattering_lengths:
+       # if atom_types and scattering_lengths:
+        if atom_types is not None and scattering_lengths is not None and len(atom_types) == len(scattering_lengths):
             if len(atom_types) == len(scattering_lengths):
                 for i in range(0, len(atom_types)):
                     self.scatlens[atom_types[i]] = scattering_lengths[
@@ -265,6 +266,7 @@ class MDSimulation(Component):
                 # assign scattering length based on atom type, if there is a
                 # lgtfile use this, if not use periodictable
                 scattering_length = self.scatlens[atoms[atom].name]
+                #print (f'Scattering length determined for {atom}')
                 # with the system split into a series of layer, select the
                 # appropriate layer based on the atom's z coordinate
                 layer_choose = int(
@@ -273,6 +275,8 @@ class MDSimulation(Component):
                     )
                 )
                 # add the real and imaginary scattering lengths to this layer
+                #print ('Layers')
+                #print (self.layers)
                 self.layers[k, layer_choose, 1] += (
                     scattering_length[0]
                 )
@@ -280,6 +284,7 @@ class MDSimulation(Component):
                     scattering_length[1]
                 )
         # get a scattering length density
+        print ('now working with layers')
         self.layers[:, :, 1] /= (
             u.dimensions[0] * u.dimensions[1] * self.layers[0, 0, 0]
         )

@@ -152,7 +152,7 @@ for resname in ['DLMC', 'TIP3', 'Total']:
 plt.legend(loc='best')
 plt.xlim(80,150)
 plt.savefig('SLD_profile_AA.png', dpi=300, bbox_inches='tight')
-plt.savefig('Ref_profile_AA.png', dpi=300, bbox_inches='tight')
+#plt.savefig('Ref_profile_AA.png', dpi=300, bbox_inches='tight')
 
 
 

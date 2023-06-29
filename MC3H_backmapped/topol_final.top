@@ -1,0 +1,20 @@
+; Include forcefield parameters
+#include "/scratch/kmzh811/kmzh811/RNA_MC3_monolayers/MC3H/CG2AT_2023-06-28_14-19-19/FINAL/charmm36_ljpme-jul2021_ILs.ff/forcefield.itp"
+#include "DLMP.itp"
+#include "TIP3P.itp"
+#include "NA.itp"
+#include "CL.itp"
+[ system ]
+; Name
+Something clever....
+
+[ molecules ]
+; Compound        #mols
+DLMP    494
+TIP3P    26388
+NA    78
+CL    572
+
+#ifdef DISRES
+#include "PROTEIN_disres.itp"
+#endif
